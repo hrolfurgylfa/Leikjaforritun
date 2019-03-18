@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - sverd
+  - vatn
+  - "\xF3vinur"
+  - sverdaHitbox
   layers:
   - Default
   - TransparentFX
@@ -15,10 +18,10 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
-  - 
+  - Spilari
+  - "\xD3vinur"
+  - sverd
+  - sverdHitbox
   - 
   - 
   - 

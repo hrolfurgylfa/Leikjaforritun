@@ -7,9 +7,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     [RequireComponent(typeof (ThirdPersonCharacter))]
     public class AICharacterControl : MonoBehaviour
     {
-        public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
-        public ThirdPersonCharacter character { get; private set; } // the character we are controlling
-        public Transform target;                                    // target to aim for
+        public UnityEngine.AI.NavMeshAgent agent { get; private set; }  // the navmesh agent required for the path finding
+        public ThirdPersonCharacter character { get; private set; }     // the character we are controlling
+        public Transform target;                                        // target to aim for
+        public Transform byrjunarStadsetning;                                // Byrjunar staðsetning
 
 
         private void Start()
@@ -20,6 +21,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 	        agent.updateRotation = false;
 	        agent.updatePosition = true;
+            agent.Warp(byrjunarStadsetning.position);// Þetta færir óvininn á staðsetningu byrjunarStadsetning
         }
 
 
@@ -38,6 +40,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         public void SetTarget(Transform target)
         {
             this.target = target;
+        }
+
+        void OnTriggerEnter(Collider hlutur) {
+            if (hlutur.gameObject.CompareTag("sverd")) {
+                Debug.Log("Óvinur drepinn");
+            }
         }
     }
 }

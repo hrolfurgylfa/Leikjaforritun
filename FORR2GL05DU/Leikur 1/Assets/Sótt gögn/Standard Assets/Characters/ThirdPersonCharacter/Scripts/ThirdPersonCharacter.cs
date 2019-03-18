@@ -15,6 +15,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
+		[SerializeField] CapsuleCollider m_Capsule;
 
 		Rigidbody m_Rigidbody;
 		Animator m_Animator;
@@ -26,7 +27,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		Vector3 m_GroundNormal;
 		float m_CapsuleHeight;
 		Vector3 m_CapsuleCenter;
-		CapsuleCollider m_Capsule;
 		bool m_Crouching;
 
 
@@ -34,9 +34,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		{
 			m_Animator = GetComponent<Animator>();
 			m_Rigidbody = GetComponent<Rigidbody>();
-			m_Capsule = GetComponent<CapsuleCollider>();
-			m_CapsuleHeight = m_Capsule.height;
-			m_CapsuleCenter = m_Capsule.center;
+			// m_CapsuleHeight = m_Capsule.height;
+			// m_CapsuleCenter = m_Capsule.center;
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
