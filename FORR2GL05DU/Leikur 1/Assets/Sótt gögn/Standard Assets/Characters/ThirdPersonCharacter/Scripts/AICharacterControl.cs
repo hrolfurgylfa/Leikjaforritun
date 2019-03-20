@@ -41,11 +41,5 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             this.target = target;
         }
-
-        void OnTriggerEnter(Collider hlutur) {
-            if (hlutur.gameObject.CompareTag("sverd")) {
-                Debug.Log("Óvinur drepinn");
-            }
-        }
     }
 }

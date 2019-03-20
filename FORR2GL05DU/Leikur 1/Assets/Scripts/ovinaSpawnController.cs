@@ -12,6 +12,7 @@ public class ovinaSpawnController : MonoBehaviour {
     void Update() {
         
     }
+    
     void buaTilOvin () {
         
     }

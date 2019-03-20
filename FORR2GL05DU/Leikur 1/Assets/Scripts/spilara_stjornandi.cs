@@ -40,12 +40,12 @@ public class spilara_stjornandi : MonoBehaviour {
             showKillScreen();
         }
         if (hlutur.gameObject.CompareTag("óvinur")) {// Þetta passar að það sem er hérna inni gerist bara ef spilarinn snertir óvin
-                HP--;
-                Debug.Log("Killed");
-                if (HP == 0) {// Þetta gerist ef leikmaðurinn er búinn að missa öll lífin sín
-                    killedMsg = killedByEnemyMsg;
-                    showKillScreen();
-                }
+            HP--;
+            Debug.Log("Killed");
+            if (HP == 0) {// Þetta gerist ef leikmaðurinn er búinn að missa öll lífin sín
+                killedMsg = killedByEnemyMsg;
+                showKillScreen();
+            }
         }
         // Debug.Log("Eitthvað snert");
     }
