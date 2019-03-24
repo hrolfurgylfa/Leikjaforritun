@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;// Ég sæki þetta til þess að geta unnið með UI í scriptu
+using UnityEngine.SceneManagement;// Hérna sæki ég það sem ég nota til þess að restarta leiknum
 
 public class spilara_stjornandi : MonoBehaviour {
 
@@ -8,7 +10,18 @@ public class spilara_stjornandi : MonoBehaviour {
     public int HP;
     public string drownedMsg;
     public string killedByEnemyMsg;
-    public int kills;
+    public int drap;
+    public Text lifTextabox;
+    public Text drapTextabox;
+    public Text timiTextabox;
+    public string lifTexti;
+    public string drapTexti;
+    public string timiTexti;
+    public Canvas adalCanvas;
+    public Canvas daudaCanvas;
+    public Text daudaTextabox;
+    public Text daudaDrapTextabox;
+    public Text daudaTimaTextabox;
 
     private float sla;
     private bool vatn_buid;
@@ -16,13 +29,24 @@ public class spilara_stjornandi : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {   
-        animator = this.gameObject.GetComponent<Animator>();
+        animator = this.gameObject.GetComponent<Animator>();// Þetta sækir animatorinn á spilaranum svo að ég geti notað hann seinna
         vatn_buid = false;
-        kills = 0;
+        drap = 0;
+
+        // Gera texta réttan í byrjun
+        lifTextabox.text = lifTexti + HP;
+        drapTextabox.text = drapTexti + drap;
+        timiTextabox.text = timiTexti + 0;
     }
 
     // FixedUpdate is called once per frame
     void Update() {
+        if (Input.GetButtonDown("Restart") == true) {// Þetta gerist ef spilarinn ýtir á r
+            Time.timeScale = 1.0f;// Þetta setir tímann aftur í gang svo að spilarinn sé ekki frosinn þegar hann byrjar aftur
+            SceneManager.LoadScene (SceneManager.GetActiveScene().name);// Þetta byrjar að fá nafnið á levelinu sem er í gangi núna og loadar því svo svo að levelið endurræsist
+        }
+        // Uppfæra skeiðklukku
+        timiTextabox.text = timiTexti + System.Math.Round(Time.timeSinceLevelLoad,2).ToString();// Þetta námundar tímann síðan levelið byrjaði að tveimur aukastöfum, breytir því í streng og bætir því svo við á skjáinn
 
         // Sverða stjórnun
         sla = Input.GetAxis ("Fire1");
@@ -35,33 +59,30 @@ public class spilara_stjornandi : MonoBehaviour {
     
     void OnTriggerEnter(Collider hlutur) {
         if (hlutur.gameObject.CompareTag("vatn") && vatn_buid == false) {// Þetta passar að það sem er hérna inni gerist bara ef hluturinn sem spilarinn fer inní er vatn og að þetta sé ekki búið að keyra
-            vatn_buid = true;
-            killedMsg = drownedMsg;
+            vatn_buid = true;// Þetta passar að þetta muni ekki keyra tvisvar
+            killedMsg = drownedMsg;// Þetta breytir dauðaskilaboðunum sem munu koma á lokaskjánum í skilaboðin sem segja að spilarinn hafi drukknað
             showKillScreen();
         }
         if (hlutur.gameObject.CompareTag("óvinur")) {// Þetta passar að það sem er hérna inni gerist bara ef spilarinn snertir óvin
             HP--;
-            Debug.Log("Meiddur");
+            lifTextabox.text = lifTexti + HP;// Þetta uppfærir textann á skjánum
             if (HP == 0) {// Þetta gerist ef leikmaðurinn er búinn að missa öll lífin sín
-                Debug.Log("Drepinn");
-                killedMsg = killedByEnemyMsg;
+                killedMsg = killedByEnemyMsg;// Þetta breytir dauðaskilaboðunum sem munu koma á lokaskjánum í skilaboðin sem segja drepinn af óvini
                 showKillScreen();
             }
         }
-        // Debug.Log("Eitthvað snert");
     }
-    
-    IEnumerator BidaEftirEnda() {
-        yield return new WaitForSeconds(3);
-        
-        // Endurræsa borðið
-    }
-    void showKillScreen() {
+
+    void showKillScreen() {// Þetta fall sýnir dauða skjáinn og stoppar leikinn
         // Sýna skjá með dauða skilaboðum
-        Debug.Log(killedMsg);
+        adalCanvas.gameObject.SetActive(false);// Þetta slekkur á venjulega UIinu
+        daudaCanvas.gameObject.SetActive(true);// Þetta kveikir á dauða UIinu
+        daudaTextabox.text = killedMsg;// Þetta sýnir dauðaskilaboðin
+        // Þetta er til þess að sýna textaboxið með nýjustu upplýsingum eftir að maður deyr
+        daudaDrapTextabox.text = drapTexti + drap;
+        daudaTimaTextabox.text = timiTexti + System.Math.Round(Time.timeSinceLevelLoad,2).ToString();
 
-        // Stoppa leik
-
-        StartCoroutine(BidaEftirEnda());
+        // Stoppa leikinn
+        Time.timeScale = 0.0f;// Þetta stoppar allt sem er að gerast í leiknum með því að láta leikinn keyra á 0 hraða
     }
 }
