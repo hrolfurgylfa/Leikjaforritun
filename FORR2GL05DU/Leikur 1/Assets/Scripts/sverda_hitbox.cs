@@ -4,21 +4,18 @@ using UnityEngine;
 
 public class sverda_hitbox : MonoBehaviour
 {
+    public GameObject Spilari;
+
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+    void Start() {
+        spilara_stjornandi SpilaraStjornandi = Spilari.GetComponent<spilara_stjornandi>();
     }
 
     void OnTriggerEnter(Collider hlutur) {
         if (hlutur.gameObject.CompareTag("sverd")) {
             Debug.Log("Óvinur drepinn");
+            SpilaraStjornandi.kills += 1;
+            Destroy(transform.parent.gameObject);
         }
     }
 }

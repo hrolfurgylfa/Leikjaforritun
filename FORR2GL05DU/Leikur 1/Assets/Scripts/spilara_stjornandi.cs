@@ -41,8 +41,9 @@ public class spilara_stjornandi : MonoBehaviour {
         }
         if (hlutur.gameObject.CompareTag("óvinur")) {// Þetta passar að það sem er hérna inni gerist bara ef spilarinn snertir óvin
             HP--;
-            Debug.Log("Killed");
+            Debug.Log("Meiddur");
             if (HP == 0) {// Þetta gerist ef leikmaðurinn er búinn að missa öll lífin sín
+                Debug.Log("Drepinn");
                 killedMsg = killedByEnemyMsg;
                 showKillScreen();
             }
