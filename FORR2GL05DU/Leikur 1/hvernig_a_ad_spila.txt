@@ -1,1 +1,2 @@
 Markmið leiksins er að drepa eins marga rauða óvini og hægt er án þess að deyja. Til þess að drepa óvini ýtir þú á vinstri músa takkann og þá slærð þú sverði og til þess að meiðast ekki þarf þú að passa að óvinirnir snerti þig ekki.
+Það eina sem ég notaði í leikinn var Standart Assets og ég fylgdi ekki neinu tutoruali.
