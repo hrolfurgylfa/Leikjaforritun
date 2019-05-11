@@ -27,6 +27,8 @@ public class MeshGen : MonoBehaviour {
     
     // the list of used segments
     private List<Segment> _usedSegments = new List<Segment>();
+
+    private gameObject 
     
     void Awake() {
         // Create vertex array helper
@@ -107,12 +109,15 @@ public class MeshGen : MonoBehaviour {
             GenerateSegment(index, ref mesh);
             
             filter.transform.position = new Vector3(index * SegmentLength, 0, 0);
+
             filter.gameObject.SetActive(true);
             
             // register as segment
             var segment = new Segment();
             segment.Index = index;
             segment.MeshFilter = filter;
+
+            // GenerateCollider(segment);
             
             _usedSegments.Add(segment);
         }
@@ -121,7 +126,7 @@ public class MeshGen : MonoBehaviour {
     private void EnsureSegmentNotVisible(int index) {
         if (IsSegmentVisible(index)) {
             int listIndex = SegmentCurrentlyVisibleListIndex(index);
-            Segment segment = _usedSegments[listIndex];
+            Segment segment = _usedSegments[listIndex]; 
             _usedSegments.RemoveAt(listIndex);
             
             MeshFilter filter = segment.MeshFilter;
@@ -148,7 +153,7 @@ public class MeshGen : MonoBehaviour {
     // Gets the heigh of terrain at current position.
     // Modify this fuction to get different terrain configuration.
     private float GetHeight(float position) {
-        return (Mathf.Sin(position) + 1.5f + Mathf.Sin(position * 1.75f) + 1f) / 2f;
+        return (Mathf.Sin(position) + 5.5f + Mathf.Sin(position * .5f) + 1f) / 2f;
     }
     
     // This function generates a mesh segment.
@@ -167,9 +172,26 @@ public class MeshGen : MonoBehaviour {
             _vertexArray[i * 2] = new Vector3(xPos, yPosTop, 0);
             
             // bottom vertex always at y=0
-            _vertexArray[i * 2 + 1] = new Vector3(xPos, 0, 0);         
+            _vertexArray[i * 2 + 1] = new Vector3(xPos, 0, 0);
         }
+
+        // Byrjun kóðans míns
+        PolygonCollider2D polygonCollider = filter.gameObject.GetComponent<PolygonCollider2D>();
+        Debug.Log(polygonCollider);
+
+        polygonCollider.pathCount = 1;
         
+        // polygonCollider.SetPath(0, _vertexArray);
+        
+        
+        Debug.Log("_vertexArray:");
+        for (int tel = 0; tel < _vertexArray.Length;tel++) {
+            Debug.Log("Point: "+tel);
+            Debug.Log(_vertexArray[tel]);
+        }
+
+        // Endi kóðans míns
+
         mesh.vertices = _vertexArray;
         
         // need to recalculate bounds, because mesh can disappear too early
