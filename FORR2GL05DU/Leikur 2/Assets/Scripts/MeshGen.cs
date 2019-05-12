@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// !!!!!----- Ég gerði mest af þessu scripti ekki en ég gerði smá kóða, minn kóði byrjar þar sem það er komment sem segir: "Byrjun kóðans míns".-----!!!!!
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -28,7 +29,7 @@ public class MeshGen : MonoBehaviour {
     // the list of used segments
     private List<Segment> _usedSegments = new List<Segment>();
 
-    private gameObject 
+    // private gameObject
     
     void Awake() {
         // Create vertex array helper
@@ -106,7 +107,7 @@ public class MeshGen : MonoBehaviour {
             _freeMeshFilters.RemoveAt(meshIndex);
             
             Mesh mesh = filter.mesh;
-            GenerateSegment(index, ref mesh);
+            GenerateSegment(index, ref mesh, filter);
             
             filter.transform.position = new Vector3(index * SegmentLength, 0, 0);
 
@@ -159,7 +160,7 @@ public class MeshGen : MonoBehaviour {
     // This function generates a mesh segment.
     // Index is a segment index (starting with 0).
     // Mesh is a mesh that this segment should be written to.
-    public void GenerateSegment(int index, ref Mesh mesh) {
+    public void GenerateSegment(int index, ref Mesh mesh, MeshFilter filter) {// Hérna bætti ég við filter til þess að geta komist í EdgeCollider2D og geta breytt honum svo að hann passi við colliderinn
         float startPosition = index * SegmentLength;
         float step = SegmentLength / (SegmentResolution - 1);
         
@@ -175,21 +176,32 @@ public class MeshGen : MonoBehaviour {
             _vertexArray[i * 2 + 1] = new Vector3(xPos, 0, 0);
         }
 
-        // Byrjun kóðans míns
-        PolygonCollider2D polygonCollider = filter.gameObject.GetComponent<PolygonCollider2D>();
-        Debug.Log(polygonCollider);
+        // Byrjun kóðans míns (Þetta er það sem ég eyddi lang mestum tíma í en það borgaði sig algjörlega vegna þess að núna er ég með jörð sem er búin til sjálfkrafa)
+        int lengd;
+        if (_vertexArray.Length % 2 != 0) {
+            lengd = (_vertexArray.Length / 2) - 1;
+        } else {
+            lengd = _vertexArray.Length / 2;
+        }
+        Debug.Log(lengd);
 
-        polygonCollider.pathCount = 1;
-        
-        // polygonCollider.SetPath(0, _vertexArray);
-        
-        
-        Debug.Log("_vertexArray:");
-        for (int tel = 0; tel < _vertexArray.Length;tel++) {
-            Debug.Log("Point: "+tel);
+        Vector2[] listiPunkta = new Vector2[lengd];
+
+        Debug.Log(listiPunkta.Length);
+
+        int tel2 = 0;
+        for (int tel = 0; tel < _vertexArray.Length; tel += 2) {
             Debug.Log(_vertexArray[tel]);
+            float x = _vertexArray[tel][0];
+            float y = _vertexArray[tel][1];
+            Vector2 punktur = new Vector2(x, y);
+            listiPunkta[tel2] = punktur;
+            tel2++;
         }
 
+        EdgeCollider2D edgeCollider = filter.gameObject.GetComponent<EdgeCollider2D>();
+        edgeCollider.Reset();
+        edgeCollider.points = listiPunkta;
         // Endi kóðans míns
 
         mesh.vertices = _vertexArray;
