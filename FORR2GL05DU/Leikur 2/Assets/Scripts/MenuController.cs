@@ -9,7 +9,7 @@ public class MenuController : MonoBehaviour
     public void StartGame() {
         GameObject StigaGeymsla = GameObject.Find("StigaGeymsla");
         Destroy(StigaGeymsla);
-        SceneManager.LoadScene(0);// Þetta skiptir um senu og skiptir yfir í leikinn
+        SceneManager.LoadScene(1);// Þetta skiptir um senu og skiptir yfir í leikinn
     }
 
     public Text stigSidastTextabox;
