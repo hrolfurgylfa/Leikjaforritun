@@ -177,31 +177,30 @@ public class MeshGen : MonoBehaviour {
         }
 
         // Byrjun kóðans míns (Þetta er það sem ég eyddi lang mestum tíma í en það borgaði sig algjörlega vegna þess að núna er ég með jörð sem er búin til sjálfkrafa)
-        int lengd;
-        if (_vertexArray.Length % 2 != 0) {
-            lengd = (_vertexArray.Length / 2) - 1;
-        } else {
-            lengd = _vertexArray.Length / 2;
+
+        // Það sem ég er að gera hérna í stuttu máli er að taka annan hvorn punkt í _vertexArrey, setja þá í minn egin lista og gera svo edge collider á milli þeirra allra vegna þess að þetta script sem ég fann kom ekki með collier svo að ég þurfti að eyða mörgum klukkutímum í að fara yfir þetta script til þess að skilja uþb hvað væri að gerast og gera svo minn egin edgeCollider hérna.
+
+        int lengd;// Þetta býr til lengdar breytu sem er svo notuð til þess að passa að punktalistarnir séu ekki of langir
+        if (_vertexArray.Length % 2 != 0) {// Þetta keyrir ef lengdin á _vertexArrey er oddatala
+            lengd = (_vertexArray.Length / 2) - 1;// Þetta deilir _vertexArreyinum í tvent vegna þess að ég er að fara að búa til lista sem er með öðrum hverjum punkti og svo mínusa ég 1 til þess að ég sé ekki með .5 í heilu tölunni minni sem verður notuð fyrir lengdina á listanum listiPunkta
+        } else {// Þetta keyrir ef lengdin á _vertexArrey er slétt tala
+            lengd = _vertexArray.Length / 2;// Þetta deilir _vertexArreyinum í tvent vegna þess að ég er að fara að búa til lista sem er með öðrum hverjum punkti
         }
-        Debug.Log(lengd);
 
-        Vector2[] listiPunkta = new Vector2[lengd];
-
-        Debug.Log(listiPunkta.Length);
+        Vector2[] listiPunkta = new Vector2[lengd];// Hérna bý ég til lista með lengdinni lengd
 
         int tel2 = 0;
-        for (int tel = 0; tel < _vertexArray.Length; tel += 2) {
-            Debug.Log(_vertexArray[tel]);
-            float x = _vertexArray[tel][0];
-            float y = _vertexArray[tel][1];
-            Vector2 punktur = new Vector2(x, y);
-            listiPunkta[tel2] = punktur;
+        for (int tel = 0; tel < _vertexArray.Length; tel += 2) {// Hérna keyri ég í gegnum aðra hverja tölu í _vertexArrey og bæti henni í listann minn
+            float x = _vertexArray[tel][0];// Hérna tex ég x gildið úr Vector3 í _vertexArrey vegna þess að mér vantar Vector2
+            float y = _vertexArray[tel][1];// Hérna tex ég y gildið úr Vector3 í _vertexArrey vegna þess að mér vantar Vector2
+            Vector2 punktur = new Vector2(x, y);// Hérna bý ég til Vector2 úr hnitunum sem ég tók
+            listiPunkta[tel2] = punktur;// Hérna bæti ég Vector2inum við listann minn
             tel2++;
         }
 
-        EdgeCollider2D edgeCollider = filter.gameObject.GetComponent<EdgeCollider2D>();
-        edgeCollider.Reset();
-        edgeCollider.points = listiPunkta;
+        EdgeCollider2D edgeCollider = filter.gameObject.GetComponent<EdgeCollider2D>();// Hérna sæki ég edge colliderinn
+        edgeCollider.Reset();// Hérna endurræsi ég edge colliderinn
+        edgeCollider.points = listiPunkta;// Hérna bæti ég punktalistanum mínum sem ég bjó til hér að ofan við edge colliderinn
         // Endi kóðans míns
 
         mesh.vertices = _vertexArray;
